@@ -1,0 +1,223 @@
+═══════════════════════════════════════════════════════════════════════════
+  CSLR-IIGA DEBUG TOOLKIT - INSTRUCCIONES PARA EL USUARIO
+═══════════════════════════════════════════════════════════════════════════
+
+¡Hola! Este es un repositorio DEBUG separado para entender el modelo IIGA.
+
+PASOS SIGUIENTES (para ti):
+═══════════════════════════════════════════════════════════════════════════
+
+1. CREAR REPOSITORIO PÚBLICO EN TU GITHUB
+──────────────────────────────────────────
+
+   a) Ve a https://github.com/new
+   b) Nombre del repo: CSLR-IIGA-Debug
+   c) Descripción: "Educational debug toolkit for CSLR-IIGA model"
+   d) Público: ✓ (público)
+   e) Crear repo (sin README inicial)
+   
+2. AGREGAR REMOTE Y PUSH
+────────────────────────
+
+   Desde la terminal en esta carpeta (d:\Tesis_CSLR\CSLR-IIGA-Debug):
+   
+   git remote add origin https://github.com/TU_USUARIO/CSLR-IIGA-Debug.git
+   git branch -M main
+   git push -u origin main
+   
+   ⚠️ Reemplaza "TU_USUARIO" con tu nombre de usuario de GitHub
+
+3. CLONAR EN TU PC LOCAL
+───────────────────────
+
+   Desde tu PC local (donde quieras clonar):
+   
+   git clone https://github.com/TU_USUARIO/CSLR-IIGA-Debug.git
+   cd CSLR-IIGA-Debug
+
+4. INSTALAR DEPENDENCIAS
+────────────────────────
+
+   pip install -r requirements.txt
+   
+   (O si usas conda)
+   conda create -n cslr_debug -y
+   conda activate cslr_debug
+   pip install -r requirements.txt
+
+5. EJECUTAR SCRIPTS DE DEBUG
+─────────────────────────────
+
+   a) Ver flujo de datos (sin entreno):
+      python IIGA/dataloader_debug.py --num_samples 3
+   
+   b) Ver arquitectura del transformer:
+      python IIGA/transformer_debug.py --debug_samples 2
+   
+   c) Ver segmentación MediaPipe:
+      python IIGA/segmentation_debug.py
+   
+   d) VER TODO JUNTO (esto es lo que muestras al profesor):
+      python IIGA/train_debug.py --debug_samples 5 --num_epochs 1
+   
+   Todos los logs se guardan en: debug_outputs/logs/
+
+6. MOSTRAR AL PROFESOR
+──────────────────────
+
+   Opción 1 (recomendado): Ejecuta train_debug.py y muéstrale:
+     - console output (ve todo el flujo)
+     - el archivo de log generado
+     - README.md (explicación general)
+   
+   Opción 2: Muéstrale la estructura del repo:
+     - IIGA/ → scripts de debug
+     - docs/ → documentación
+     - README.md → inicio
+
+ESTRUCTURA DEL REPOSITORIO
+═══════════════════════════════════════════════════════════════════════════
+
+├── IIGA/
+│   ├── train_debug.py          ← MAIN: simula entrenamiento completo
+│   ├── dataloader_debug.py     ← Muestra carga de datos
+│   ├── transformer_debug.py    ← Explica IIGA layer by layer
+│   ├── segmentation_debug.py   ← MediaPipe demo
+│   └── tools/                  ← Utilidades (vacío por ahora)
+│
+├── docs/
+│   ├── GUIA_PASO_A_PASO.md     ← COMIENZA AQUÍ (tutorial completo)
+│   ├── FAQ.md                  ← Preguntas comunes
+│   ├── ARCHITECTURE.md         ← Detalles técnicos profundos
+│   └── DATASETS.md             ← Info sobre PHOENIX-2014
+│
+├── data_sample/                ← Para datos mini (vacío inicialmente)
+├── debug_outputs/
+│   ├── logs/                   ← Logs generados
+│   └── visualizations/         ← Gráficos (si se generan)
+├── notebooks/                  ← Jupyter notebooks (futuro)
+│
+├── README.md                   ← Overview del proyecto
+├── requirements.txt            ← Dependencias Python
+├── LICENSE                     ← MIT License
+├── .gitignore                  ← Git ignore patterns
+└── .gitattributes              ← Line ending config
+
+PARA EL PROFESOR
+═══════════════════════════════════════════════════════════════════════════
+
+Cuando ejecutes train_debug.py, verá:
+
+1. Carga de datos simulada
+   - Muestra cómo se seleccionan 12 frames
+   - Rescale de 384×288 → 224×224
+   - Conversión de glosas a índices
+
+2. CNN (MobileNetV2)
+   - Input: (batch=5, 12, 224, 224, 3)
+   - Output: (batch=5, 12, 1280) features
+
+3. Positional Encoding
+   - Codificación de posición temporal
+   - Shape: (1, 12, 1280)
+
+4. IIGA Transformer
+   - Intra-Gloss Attention (cada frame ve su glosa)
+   - Inter-Gloss Attention (relaciones entre glosas)
+   - Output: (batch=5, 12, 1280)
+
+5. Decoder + CTC Loss
+   - Predicción: (batch=5, 12, 1232) logits
+   - Loss: CTC Loss alignment
+   - Métricas: WER, BLEU, ROUGE
+
+6. Output final
+   - Loss value por mini-batch
+   - WER (errores)
+   - BLEU (n-gramas)
+   - ROUGE (subsecuencias)
+
+TODO LO QUE TÚ NECESITAS SABER
+═══════════════════════════════════════════════════════════════════════════
+
+Este repo:
+  ✓ NO necesita el dataset completo
+  ✓ NO hace entrenamiento real (es simulado)
+  ✓ Corre en 1-2 minutos en cualquier PC
+  ✓ Es 100% independiente del repo de entrenamiento
+  ✓ Es público → fácil de compartir con profesor
+
+Este repo NO:
+  ✗ No es el repo de entrenamiento actual
+  ✗ No interferiere con tu GPU entrenando en la otra máquina
+  ✗ No requiere PHOENIX-2014 dataset
+  ✗ No necesita GPU (corre en CPU también)
+
+EJEMPLO DE USO CON PROFESOR
+═══════════════════════════════════════════════════════════════════════════
+
+Profesor: "Explícame qué pasa en cada etapa del modelo"
+
+Tú:
+  1. Clonas el repo en tu laptop
+  2. Ejecutas: python IIGA/train_debug.py --debug_samples 3 --num_epochs 1
+  3. Le muestras el output en consola (ve frames → CNN → Transformer → Loss)
+  4. Le muestras README.md y docs/GUIA_PASO_A_PASO.md (explicación escrita)
+  5. Si pregunta más: ejecutas dataloader_debug.py, transformer_debug.py, etc.
+
+Profesor verá:
+  - Carga de datos paso a paso
+  - Transformación de frames
+  - Dimensiones de tensores
+  - Loss y métricas convergiendo
+  - Explicación clara en cada paso
+
+PRÓXIMOS PASOS (DESPUÉS DE APROBAR PROFESOR)
+═══════════════════════════════════════════════════════════════════════════
+
+Si el profesor quiere más:
+  1. Agregar Jupyter notebooks
+  2. Agregar visualizaciones de atención
+  3. Agregar demo en tiempo real (futuro)
+  4. Agregar ejemplos con datos reales (si logras PHOENIX-2014)
+
+PREGUNTAS FRECUENTES (RESPUESTAS RÁPIDAS)
+═══════════════════════════════════════════════════════════════════════════
+
+P: ¿Esto interfiere con mi entrenamiento actual?
+R: No. Son 2 repos completamente separados en carpetas diferentes.
+
+P: ¿Necesito GPU?
+R: No. Este debug toolkit corre en CPU (lento pero funciona).
+
+P: ¿Necesito PHOENIX-2014?
+R: No. Usa datos simulados para la demo.
+
+P: ¿Puedo agregar mis datos reales?
+R: Sí. Pon videos en data_sample/phoenix-2014-mini/ y ajusta paths.
+
+P: ¿Es para producción?
+R: No. Es solo educativo. Para producción usa el otro repo.
+
+P: ¿Qué versión de Python?
+R: Python 3.8+ (recomendado 3.10+)
+
+INFORMACIÓN DE CONTACTO / DOCUMENTACIÓN
+═══════════════════════════════════════════════════════════════════════════
+
+Si algo no funciona:
+  1. Lee docs/FAQ.md
+  2. Verifica requirements.txt
+  3. Chequea logs en debug_outputs/logs/
+  4. Lee el README.md principal
+
+Documentación:
+  - README.md: Overview
+  - docs/GUIA_PASO_A_PASO.md: Tutorial paso a paso (LEER PRIMERO)
+  - docs/FAQ.md: Preguntas comunes
+  - docs/ARCHITECTURE.md: Detalles técnicos
+  - docs/DATASETS.md: Info de datasets
+
+═══════════════════════════════════════════════════════════════════════════
+¡Éxito explicándole al profesor! 🚀
+═══════════════════════════════════════════════════════════════════════════
