@@ -1,0 +1,41 @@
+# Auto detect text files and normalize line endings to LF
+* text=auto
+
+# Python
+*.py text eol=lf
+*.pyw text eol=lf
+*.pyx text eol=lf
+
+# Documentation
+*.md text eol=lf
+*.txt text eol=lf
+*.csv text eol=lf
+
+# Shell
+*.sh text eol=lf
+*.bash text eol=lf
+
+# Windows scripts
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.exe binary
+
+# Jupyter Notebooks
+*.ipynb text
+
+# Logs
+*.log text eol=lf
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.pt binary
+*.pth binary
+*.pkl binary
+*.pickle binary
+
+# Git
+.gitattributes text
+.gitignore text

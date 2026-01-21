@@ -1,0 +1,38 @@
+# Logs
+debug_outputs/logs/*.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+
+# Data
+data_sample/phoenix-2014-mini/*
+!data_sample/.gitkeep
+debug_outputs/visualizations/*.png
+debug_outputs/visualizations/*.jpg
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Models
+*.pt
+*.pth
+*.pkl
