@@ -1,0 +1,41 @@
+🎯 CSLR-IIGA DEBUG TOOLKIT - QUICK START
+========================================
+
+ESTE ES UN REPOSITORIO LISTO PARA GITHUB
+
+Archivos creados:
+✓ train_debug.py          - Simulación completa de entrenamiento
+✓ dataloader_debug.py     - Carga de datos explicada
+✓ transformer_debug.py    - Arquitectura IIGA paso a paso
+✓ segmentation_debug.py   - MediaPipe demo
+✓ 4 documentos en docs/   - Guías y FAQ
+✓ .gitignore, .gitattributes, LICENSE
+
+PASOS PARA TI:
+==============
+
+1. Crear repo en GitHub
+   https://github.com/new → Nombre: CSLR-IIGA-Debug → Crear
+
+2. Agregar remote (desde esta carpeta):
+   git remote add origin https://github.com/TU_USUARIO/CSLR-IIGA-Debug.git
+   git branch -M main
+   git push -u origin main
+
+3. Clonar en tu PC local:
+   git clone https://github.com/TU_USUARIO/CSLR-IIGA-Debug.git
+
+4. Instalar y ejecutar:
+   pip install -r requirements.txt
+   python IIGA/train_debug.py --debug_samples 5 --num_epochs 1
+
+MOSTRAR AL PROFESOR:
+====================
+
+Ejecuta train_debug.py y comparte:
+- Console output (muestra flujo completo)
+- Log file (debug_outputs/logs/train_debug_*.log)
+- README.md (explicación)
+- docs/GUIA_PASO_A_PASO.md (tutorial)
+
+TODO ESTÁ LISTO PARA PUSHEAR A GITHUB ✓
