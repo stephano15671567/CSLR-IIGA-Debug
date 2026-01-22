@@ -1,15 +1,5 @@
 """
-TRANSFORMER DEBUG VERSION
-Muestra exactamente qué ocurre en cada capa del IIGA Transformer
-
-Este script explica:
-- Qué es Positional Encoding (información temporal)
-- Qué es Intra-Gloss Attention (relaciones dentro de una glosa)
-- Qué es Inter-Gloss Attention (relaciones entre glosas)
-- Cómo se combinan las predicciones
-
-Uso:
-    python transformer_debug.py --debug_samples 2 --num_layers 2
+TRANSFORMER DEBUG
 """
 
 import argparse
@@ -41,7 +31,7 @@ logger = logging.getLogger(__name__)
 # ARGUMENTOS
 # ============================================================================
 
-parser = argparse.ArgumentParser(description='Transformer DEBUG - Explicación del IIGA Transformer')
+parser = argparse.ArgumentParser(description='Transformer DEBUG')
 parser.add_argument('--debug_samples', type=int, default=2)
 parser.add_argument('--num_layers', type=int, default=2, help='Número de capas IIGA')
 parser.add_argument('--num_heads', type=int, default=10, help='Número de attention heads')
@@ -94,24 +84,9 @@ logger.info(f"  Muestra valor 1er batch, 1er frame, primeras 5 features: {cnn_ou
 logger.info("\n[CAPA 1] POSITIONAL ENCODING")
 logger.info("="*80)
 
-logger.info("""
-¿QUÉ ES?
-  - Codificación de posición temporal
-  - Le dice al transformer en qué "momento" estamos de la secuencia
-  - Usa senos y cosenos con diferentes frecuencias
-
-¿FÓRMULA?
-  PE(pos, 2i) = sin(pos / 10000^(2i/d_model))
-  PE(pos, 2i+1) = cos(pos / 10000^(2i/d_model))
-
-¿PARA QUÉ?
-  - Sin PE: transformer vería 12 frames idénticos, sin orden
-  - Con PE: transformer sabe que frame[0] es diferente de frame[11]
-  
-¿TAMAÑO?
-  - Shape: (1, local_window, d_model) = (1, 12, 1280)
-  - Se suma a CNN output
-""")
+logger.info("Codificación de posición temporal")
+logger.info("Formula: PE(pos, 2i) = sin(pos / 10000^(2i/d_model))")
+logger.info("         PE(pos, 2i+1) = cos(pos / 10000^(2i/d_model))")
 
 # Simular PE
 def positional_encoding(seq_len, d_model):
@@ -125,8 +100,8 @@ def positional_encoding(seq_len, d_model):
     return pe
 
 pe = positional_encoding(local_window, d_model)
-logger.info(f"\n✓ Positional Encoding creado: shape {pe.shape}")
-logger.info(f"  Valores para cada posición (primeras 5 features):")
+logger.info(f"\n✓ Positional Encoding: shape {pe.shape}")
+logger.info(f"  Valores por posición (primeras 5 features):")
 
 for pos in range(min(4, local_window)):
     logger.info(f"    Frame {pos}: {pe[pos, :5]}")

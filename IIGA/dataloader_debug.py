@@ -1,15 +1,5 @@
 """
-DATALOADER DEBUG VERSION
-Muestra exactamente qué entra y qué sale de cada función del dataloader
-
-Este script explica:
-- Cómo se leen las anotaciones (CSV)
-- Cómo se seleccionan frames
-- Cómo se rescalean a 224×224
-- Cómo se convierten glosas a índices
-
-Uso:
-    python dataloader_debug.py --data_path "ruta/a/dataset" --num_samples 3
+DATALOADER DEBUG
 """
 
 import argparse
@@ -39,7 +29,7 @@ logger = logging.getLogger(__name__)
 # ARGUMENTOS
 # ============================================================================
 
-parser = argparse.ArgumentParser(description='Dataloader DEBUG - Explicación del cargador de datos')
+parser = argparse.ArgumentParser(description='Dataloader DEBUG')
 parser.add_argument('--data_path', type=str, required=True, help='Ruta del dataset PHOENIX')
 parser.add_argument('--csv_file', type=str, default='phoenix2014.v3.train.csv')
 parser.add_argument('--num_samples', type=int, default=3)

@@ -1,15 +1,6 @@
 """
 TRAINING DEBUG VERSION
-Versión con LOGS DETALLADOS para entender el flujo completo del modelo IIGA
-
-Este script simula el entrenamiento mostrando qué entra y qué sale en cada etapa.
-
-Uso:
-    python train_debug.py --debug_samples 2 --num_epochs 1 --batch_size 2
-    
-Output:
-    - Logs en console
-    - Archivo log en ../debug_outputs/logs/
+Flujo completo del modelo IIGA
 """
 
 import argparse
@@ -41,7 +32,7 @@ logger = logging.getLogger(__name__)
 # ARGUMENTOS
 # ============================================================================
 
-parser = argparse.ArgumentParser(description='Training DEBUG version - Explicación del flujo IIGA')
+parser = argparse.ArgumentParser(description='Training DEBUG version')
 parser.add_argument('--debug_samples', type=int, default=2, help='Cuántos samples procesar')
 parser.add_argument('--batch_size', type=int, default=2, help='Batch size')
 parser.add_argument('--num_epochs', type=int, default=1, help='Número de épocas')
@@ -195,15 +186,13 @@ logger.info(f"Parámetro clave: local_window = {args.local_window}")
 
 logger.info(f"\n1. INTRA-GLOSS ATTENTION (Dentro de la glosa)")
 logger.info(f"   Ventana deslizante de {args.local_window} frames")
-logger.info(f"   Pregunta: ¿Cómo se relacionan los 12 frames de ESTA seña?")
 logger.info(f"   Mecanismo: Multi-head self-attention (10 heads)")
 
 intra_output = torch.randn(batch_size, num_frames, args.hidden_size)
 logger.info(f"   Output: {intra_output.shape}")
 
 logger.info(f"\n2. INTER-GLOSS ATTENTION (Entre glosas)")
-logger.info(f"   Pregunta: ¿Cómo se conectan diferentes glosas?")
-logger.info(f"   ¿Cómo es la transición de una glosa a la siguiente?")
+logger.info(f"   Mecanismo: Segment Attention")
 
 inter_output = torch.randn(batch_size, num_frames, args.hidden_size)
 logger.info(f"   Output: {inter_output.shape}")
@@ -313,51 +302,6 @@ for step, description in flujo_summary:
     logger.info(f"{step:<30} {description}")
 
 # ============================================================================
-# INFORMACIÓN SOBRE ARQUITECTURA
-# ============================================================================
-
-logger.info("\n" + "="*80)
-logger.info("EXPLICACIÓN: ¿POR QUÉ 12 FRAMES?")
-logger.info("="*80)
-
-logger.info("""
-El número 12 viene del paper "Continuous Sign Language Recognition 
-Using Intra-Inter Gloss Attention" (Ranjbar & Taheri, 2024).
-
-Razones:
-1. Duración típica de una seña: 0.4-0.6 segundos
-2. A 25 fps (frames por segundo): 10-15 frames
-3. 12 frames = 0.48 segundos (punto medio óptimo)
-4. Menos ruido que usar más frames
-5. Suficiente para capturar el movimiento completo
-
-La ventana de 12 es crítica para:
-- Intra-Gloss Attention: Entender evolución de UNA seña
-- Inter-Gloss Attention: Entender transiciones
-""")
-
-logger.info("\n" + "="*80)
-logger.info("INFORMACIÓN: ¿QUÉ ES IIGA?")
-logger.info("="*80)
-
-logger.info("""
-IIGA = Intra-Inter Gloss Attention
-
-Diferencia con Transformer estándar:
-- Estándar: Ve todo como secuencia continua
-- IIGA: Respeta ESTRUCTURA de glosas (ventanas de 12)
-
-Componentes:
-1. Intra-Gloss Attention
-    - Pregunta: ¿Cómo evoluciona ESTA seña en 12 frames?
-   
-2. Inter-Gloss Attention
-    - Pregunta: ¿Cómo se conectan señas diferentes?
-
-Resultado:
-- Mejor comprensión de lenguaje de signos
-""")
-
 # ============================================================================
 # FINALIZACIÓN
 # ============================================================================
@@ -366,7 +310,4 @@ logger.info("\n" + "="*80)
 logger.info("[OK] DEBUG COMPLETADO")
 logger.info("="*80)
 logger.info(f"Log guardado en: {log_file}")
-logger.info(f"\nPróximos pasos:")
-logger.info(f"1. Ejecuta: python dataloader_debug.py")
-logger.info(f"2. Revisa los logs en: ../debug_outputs/logs/")
 logger.info(f"3. Lee la documentación en: ../docs/")
