@@ -117,7 +117,7 @@ for sample_idx, (name, gloss_text) in enumerate(mock_annotations):
         'name': name
     })
 
-logger.info(f"\n✓ Total de samples procesados: {len(processed_samples)}")
+logger.info(f"\n[OK] Total de samples procesados: {len(processed_samples)}")
 
 # ============================================================================
 # PASO 3: CREAR MINIBATCH (COLLATE)
@@ -141,7 +141,7 @@ for batch_idx in range(0, len(processed_samples), args.batch_size):
     logger.info(f"  Shape después de stack: {batch_frames.shape}")
     
     batch_size, num_frames, channels, height, width = batch_frames.shape
-    logger.info(f"    → (batch_size={batch_size}, frames={num_frames}, channels={channels}, height={height}, width={width})")
+    logger.info(f"    -> (batch_size={batch_size}, frames={num_frames}, channels={channels}, height={height}, width={width})")
 
 # ============================================================================
 # PASO 4: FORWARD PASS - CNN EMBEDDING
@@ -151,19 +151,19 @@ logger.info("\n[PASO 4] FORWARD PASS - CNN (MobileNetV2) EMBEDDING")
 logger.info("-"*80)
 
 logger.info(f"Input shape: {batch_frames.shape}")
-logger.info(f"  → (batch, frames, channels, height, width)")
+logger.info(f"  -> (batch, frames, channels, height, width)")
 
 logger.info(f"\nCNN Processing (MobileNetV2):")
 logger.info(f"  Cada frame se procesa individualmente:")
-logger.info(f"  (1, 3, 224, 224) → CNN → (1, 1280)")
-logger.info(f"  Total: {num_frames} frames × 1280 features")
+logger.info(f"  (1, 3, 224, 224) -> CNN -> (1, 1280)")
+logger.info(f"  Total: {num_frames} frames x 1280 features")
 
 # Simulación: CNN extrae features
 cnn_output = torch.randn(batch_size * num_frames, args.hidden_size)
 cnn_output = cnn_output.view(batch_size, num_frames, args.hidden_size)
 
 logger.info(f"\nCNN Output shape: {cnn_output.shape}")
-logger.info(f"  → (batch={batch_size}, frames={num_frames}, hidden={args.hidden_size})")
+logger.info(f"  -> (batch={batch_size}, frames={num_frames}, hidden={args.hidden_size})")
 logger.info(f"  Cada frame ahora tiene {args.hidden_size} características extraídas")
 
 # ============================================================================
@@ -181,7 +181,7 @@ logger.info(f"  - ... Frame 12 posición encoding: posición 11")
 
 pos_encoded = cnn_output  # En realidad se suma: cnn_output + pos_encoding
 logger.info(f"\nOutput: {pos_encoded.shape}")
-logger.info(f"  → Ahora cada frame sabe su posición temporal")
+logger.info(f"  -> Ahora cada frame sabe su posición temporal")
 
 # ============================================================================
 # PASO 6: TRANSFORMER - IIGA ATTENTION
@@ -209,12 +209,12 @@ inter_output = torch.randn(batch_size, num_frames, args.hidden_size)
 logger.info(f"   Output: {inter_output.shape}")
 
 logger.info(f"\n3. FEED FORWARD")
-logger.info(f"   Red neuronal adicional: Linear → ReLU → Linear")
+logger.info(f"   Red neuronal adicional: Linear -> ReLU -> Linear")
 
 ff_output = torch.randn(batch_size, num_frames, args.hidden_size)
 logger.info(f"   Output: {ff_output.shape}")
 
-logger.info(f"\n✓ TRANSFORMER OUTPUT: {ff_output.shape}")
+logger.info(f"\n[OK] TRANSFORMER OUTPUT: {ff_output.shape}")
 
 # ============================================================================
 # PASO 7: DECODER - PREDICCIÓN DE GLOSAS
@@ -224,13 +224,13 @@ logger.info("\n[PASO 7] DECODER - PREDICCIÓN DE GLOSAS")
 logger.info("-"*80)
 
 logger.info(f"Input: {ff_output.shape}")
-logger.info(f"Función: Convertir features → probabilidades de glosas")
+logger.info(f"Función: Convertir features -> probabilidades de glosas")
 
 decoder_output = torch.randn(batch_size, num_frames, args.vocab_size)
 
-logger.info(f"\nLinear Layer: {args.hidden_size} → {args.vocab_size}")
+logger.info(f"\nLinear Layer: {args.hidden_size} -> {args.vocab_size}")
 logger.info(f"Output shape: {decoder_output.shape}")
-logger.info(f"  → Cada frame puede predecir cualquiera de {args.vocab_size} glosas")
+logger.info(f"  -> Cada frame puede predecir cualquiera de {args.vocab_size} glosas")
 
 # Simular predicción
 logger.info(f"\nInterpretación:")
@@ -275,18 +275,18 @@ errors = 1  # 1 palabra faltante (DINERO)
 total_words = 3
 wer = errors / total_words
 logger.info(f"  WER (Word Error Rate): {wer:.4f}")
-logger.info(f"    → Fórmula: (inserciones + omisiones + sustituciones) / total_palabras")
-logger.info(f"    → {errors} error / {total_words} palabras = {wer:.4f}")
+logger.info(f"    -> Fórmula: (inserciones + omisiones + sustituciones) / total_palabras")
+logger.info(f"    -> {errors} error / {total_words} palabras = {wer:.4f}")
 
 # BLEU
 bleu = 0.667
 logger.info(f"  BLEU-4: {bleu:.4f}")
-logger.info(f"    → Precisión de n-gramas (unigramas, bigramas, trigramas, 4-gramas)")
+logger.info(f"    -> Precisión de n-gramas (unigramas, bigramas, trigramas, 4-gramas)")
 
 # ROUGE
 rouge = 0.667
 logger.info(f"  ROUGE-L: {rouge:.4f}")
-logger.info(f"    → Recall de subsecuencias comunes")
+logger.info(f"    -> Recall de subsecuencias comunes")
 
 # ============================================================================
 # RESUMEN: FLUJO COMPLETO
@@ -297,14 +297,14 @@ logger.info("RESUMEN: FLUJO COMPLETO DEL MODELO IIGA")
 logger.info("="*80)
 
 flujo_summary = [
-    ("1. Input", f"Video PHOENIX-2014 (384×288×3, {num_total_frames} frames)"),
+    ("1. Input", f"Video PHOENIX-2014 (384x288x3, {num_total_frames} frames)"),
     ("2. Dataloader", f"Selecciona 12 frames, rescalea a (12, 3, 224, 224)"),
-    ("3. CNN (MobileNetV2)", f"Extrae features: (12, 3, 224, 224) → (12, 1280)"),
+    ("3. CNN (MobileNetV2)", f"Extrae features: (12, 3, 224, 224) -> (12, 1280)"),
     ("4. Positional Encoding", f"Agrega información temporal: (12, 1280) + posiciones"),
     ("5. Intra-Gloss Attention", f"Entiende movimiento dentro de glosa (ventana 12)"),
     ("6. Inter-Gloss Attention", f"Entiende transiciones entre glosas"),
     ("7. Feed Forward", f"Red neuronal adicional"),
-    ("8. Decoder", f"Predice glosas: (12, 1280) → (12, 1232)"),
+    ("8. Decoder", f"Predice glosas: (12, 1280) -> (12, 1232)"),
     ("9. CTC Loss", f"Alinea predicción: Loss = {dummy_loss:.4f}"),
     ("10. Métricas", f"WER={wer:.4f}, BLEU={bleu:.4f}, ROUGE={rouge:.4f}"),
 ]
@@ -349,13 +349,13 @@ Diferencia con Transformer estándar:
 
 Componentes:
 1. Intra-Gloss Attention
-   └─ Pregunta: ¿Cómo evoluciona ESTA seña en 12 frames?
+    - Pregunta: ¿Cómo evoluciona ESTA seña en 12 frames?
    
 2. Inter-Gloss Attention
-   └─ Pregunta: ¿Cómo se conectan señas diferentes?
+    - Pregunta: ¿Cómo se conectan señas diferentes?
 
 Resultado:
-└─ Mejor comprensión de lenguaje de signos
+- Mejor comprensión de lenguaje de signos
 """)
 
 # ============================================================================
@@ -363,7 +363,7 @@ Resultado:
 # ============================================================================
 
 logger.info("\n" + "="*80)
-logger.info("✓ DEBUG COMPLETADO")
+logger.info("[OK] DEBUG COMPLETADO")
 logger.info("="*80)
 logger.info(f"Log guardado en: {log_file}")
 logger.info(f"\nPróximos pasos:")
