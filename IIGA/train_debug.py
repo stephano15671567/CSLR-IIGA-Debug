@@ -5,7 +5,7 @@ Versión con LOGS DETALLADOS para entender el flujo completo del modelo IIGA
 Este script simula el entrenamiento mostrando qué entra y qué sale en cada etapa.
 
 Uso:
-    python train_debug.py --debug_samples 3 --num_epochs 1
+    python train_debug.py --debug_samples 2 --num_epochs 1 --batch_size 2
     
 Output:
     - Logs en console
@@ -42,10 +42,10 @@ logger = logging.getLogger(__name__)
 # ============================================================================
 
 parser = argparse.ArgumentParser(description='Training DEBUG version - Explicación del flujo IIGA')
-parser.add_argument('--debug_samples', type=int, default=3, help='Cuántos samples procesar')
-parser.add_argument('--batch_size', type=int, default=1, help='Batch size')
+parser.add_argument('--debug_samples', type=int, default=2, help='Cuántos samples procesar')
+parser.add_argument('--batch_size', type=int, default=2, help='Batch size')
 parser.add_argument('--num_epochs', type=int, default=1, help='Número de épocas')
-parser.add_argument('--local_window', type=int, default=12, help='Ventana IIGA')
+parser.add_argument('--local_window', type=int, default=10, help='Ventana IIGA')
 parser.add_argument('--hidden_size', type=int, default=1280, help='Tamaño hidden (MobileNetV2)')
 parser.add_argument('--vocab_size', type=int, default=1232, help='Tamaño del vocabulario')
 

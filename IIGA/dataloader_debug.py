@@ -43,7 +43,8 @@ parser = argparse.ArgumentParser(description='Dataloader DEBUG - Explicación de
 parser.add_argument('--data_path', type=str, required=True, help='Ruta del dataset PHOENIX')
 parser.add_argument('--csv_file', type=str, default='phoenix2014.v3.train.csv')
 parser.add_argument('--num_samples', type=int, default=3)
-parser.add_argument('--batch_size', type=int, default=1)
+parser.add_argument('--batch_size', type=int, default=2)
+parser.add_argument('--local_window', type=int, default=10)
 
 args = parser.parse_args()
 
