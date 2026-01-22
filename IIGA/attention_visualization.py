@@ -1,15 +1,5 @@
 """
-ATTENTION VISUALIZATION - Visualizar pesos de atención
-========================================================
-
-Este script genera visualizaciones de:
-- Matrices de attention weights
-- Heatmaps de qué frames atienden a qué frames
-- Evolución de attention a través de capas
-- Comparación Intra-Gloss vs Inter-Gloss
-
-Uso:
-    python attention_visualization.py --num_samples 2
+ATTENTION VISUALIZATION
 """
 
 import argparse

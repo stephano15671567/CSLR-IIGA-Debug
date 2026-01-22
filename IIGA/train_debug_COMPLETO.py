@@ -1,17 +1,5 @@
 """
-TRAINING DEBUG COMPLETO - VERSIÓN MATEMÁTICA DETALLADA
-========================================================
-
-Este script muestra TODO el flujo con:
-- Ecuaciones matemáticas formales
-- Dimensiones exactas en cada paso
-- Cálculos de attention paso a paso
-- CTC Loss con forward-backward
-- Métricas con cálculo detallado
-- Visualización de matrices
-
-Uso:
-    python train_debug_COMPLETO.py --debug_samples 2 --num_epochs 1
+TRAINING DEBUG COMPLETO - VERSIÓN CON MATEMÁTICAS
 """
 
 import argparse

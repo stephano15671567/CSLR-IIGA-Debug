@@ -1,16 +1,5 @@
 """
-ARCHITECTURE DETAILS - Análisis completo de la arquitectura
-============================================================
-
-Este script muestra:
-- Todas las capas con dimensiones exactas
-- Conteo de parámetros por módulo
-- Complejidad computacional (FLOPs)
-- Memoria requerida
-- Comparación con otras arquitecturas
-
-Uso:
-    python architecture_details.py
+ARCHITECTURE DETAILS
 """
 
 import torch
