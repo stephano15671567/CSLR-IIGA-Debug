@@ -42,9 +42,9 @@ logger = logging.getLogger(__name__)
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--num_samples', type=int, default=2)
-parser.add_argument('--seq_len', type=int, default=12)
+parser.add_argument('--seq_len', type=int, default=10)
 parser.add_argument('--hidden_size', type=int, default=1280)
-parser.add_argument('--num_heads', type=int, default=8)
+parser.add_argument('--num_heads', type=int, default=10)
 args = parser.parse_args()
 
 logger.info("="*100)

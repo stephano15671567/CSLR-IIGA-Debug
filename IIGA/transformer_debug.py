@@ -66,7 +66,7 @@ logger.info("="*80)
 
 # Simulación de datos
 batch_size = args.debug_samples
-local_window = 12
+local_window = 10
 d_model = args.d_model
 vocab_size = 1232
 

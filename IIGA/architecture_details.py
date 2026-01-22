@@ -56,7 +56,7 @@ class Config:
     
     # Transformer
     hidden_size = 1280
-    num_heads = 8
+    num_heads = 10
     num_layers = 2
     ffn_expansion = 4
     dropout = 0.1
